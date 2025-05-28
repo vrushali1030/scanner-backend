@@ -28,7 +28,7 @@ app.post('/submit-scan/:assembler', (req, res) => {
 
   console.log("📥 Scan received for:", assembler, cabinet, order, timestamp);
 
-  }
+  
 
   const { cabinet, order, timestamp } = req.body;
   if (!cabinet || !order || !timestamp) {
