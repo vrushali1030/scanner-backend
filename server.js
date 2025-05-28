@@ -24,8 +24,10 @@ function initCSVFile(assembler) {
 
 app.post('/submit-scan/:assembler', (req, res) => {
   const assembler = req.params.assembler.toLowerCase();
-  if (!VALID_ASSEMBLERS.includes(assembler)) {
-    return res.status(400).send('Invalid assembler name.');
+  const { cabinet, order, timestamp } = req.body;
+
+  console.log("Received scan:", { assembler, cabinet, order, timestamp });
+
   }
 
   const { cabinet, order, timestamp } = req.body;
