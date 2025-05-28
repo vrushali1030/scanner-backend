@@ -1,0 +1,5 @@
+node_modules/
+scan_logs/
+.vscode/
+*.log
+*.csv
