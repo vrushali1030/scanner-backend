@@ -48,6 +48,20 @@ app.post('/submit-scan/:assembler', (req, res) => {
 app.get('/', (req, res) => {
   res.send("📦 Barcode Scanner Backend is Live");
 });
+// Download CSV file for an assembler
+app.get('/download/:assembler', (req, res) => {
+  const assembler = req.params.assembler.toLowerCase();
+  if (!VALID_ASSEMBLERS.includes(assembler)) {
+    return res.status(400).send('Invalid assembler name.');
+  }
+
+  const filePath = path.join(LOG_DIR, `${assembler}.csv`);
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).send('No data found for this assembler.');
+  }
+
+  res.download(filePath); // Triggers browser download
+});
 
 app.listen(PORT, () => {
   console.log(`✅ Backend running on port ${PORT}`);
