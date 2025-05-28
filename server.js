@@ -26,7 +26,7 @@ app.post('/submit-scan/:assembler', (req, res) => {
   const assembler = req.params.assembler.toLowerCase();
   const { cabinet, order, timestamp } = req.body;
 
-  console.log("Received scan:", { assembler, cabinet, order, timestamp });
+  console.log("📥 Scan received for:", assembler, cabinet, order, timestamp);
 
   }
 
