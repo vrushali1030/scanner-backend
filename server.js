@@ -8,9 +8,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-const LOG_DIR = path.join(__dirname, 'scan_logs');
-if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR);
-
+const LOG_DIR = '/mnt/data/scan_logs';
+// Create the scan_logs folder inside /mnt/data if it doesn't exist
+if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
 const VALID_ASSEMBLERS = ['assembler1', 'assembler2', 'assembler3', 'assembler4', 'assembler5'];
 
 // Create CSV file if not exists
