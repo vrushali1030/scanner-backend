@@ -8,10 +8,14 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// ✅ Serve static frontend from /public
+app.use(express.static(path.join(__dirname, 'public')));
+
 const LOG_DIR = '/mnt/data/scan_logs';
-// Create the scan_logs folder inside /mnt/data if it doesn't exist
-if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
 const VALID_ASSEMBLERS = ['assembler1', 'assembler2', 'assembler3', 'assembler4', 'assembler5'];
+
+// Create scan_logs folder if not exists
+if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
 
 // Create CSV file if not exists
 function initCSVFile(assembler) {
@@ -22,6 +26,7 @@ function initCSVFile(assembler) {
   return filePath;
 }
 
+// 🔁 Handle scan submissions
 app.post('/submit-scan/:assembler', (req, res) => {
   const assembler = req.params.assembler.toLowerCase();
   const { cabinet, order, timestamp } = req.body;
@@ -44,10 +49,7 @@ app.post('/submit-scan/:assembler', (req, res) => {
   });
 });
 
-app.get('/', (req, res) => {
-  res.send("📦 Barcode Scanner Backend is Live");
-});
-// Download CSV file for an assembler
+// 📥 Download CSV logs
 app.get('/download/:assembler', (req, res) => {
   const assembler = req.params.assembler.toLowerCase();
   if (!VALID_ASSEMBLERS.includes(assembler)) {
@@ -59,9 +61,15 @@ app.get('/download/:assembler', (req, res) => {
     return res.status(404).send('No data found for this assembler.');
   }
 
-  res.download(filePath); // Triggers browser download
+  res.download(filePath);
 });
 
+// ✅ Fallback: Serve frontend index.html for any other route
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// 🚀 Start server
 app.listen(PORT, () => {
   console.log(`✅ Backend running on port ${PORT}`);
 });
