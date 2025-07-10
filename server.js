@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const LOG_DIR = '/mnt/data/scan_logs';
 // Create the scan_logs folder inside /mnt/data if it doesn't exist
 if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
-const VALID_ASSEMBLERS = ['assembler1', 'assembler2', 'assembler3', 'assembler4', 'assembler5'];
+const VALID_ASSEMBLERS = ['assembler1', 'assembler2', 'assembler3', 'assembler4', 'assembler5', 'assembler6'];
 
 // Create CSV file if not exists
 function initCSVFile(assembler) {
